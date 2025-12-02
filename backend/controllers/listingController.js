@@ -61,3 +61,31 @@ export const deleteListing = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
+// export const getAllListings = async (req, res) => {
+//   try {
+//     const { q, minPrice, maxPrice } = req.query;
+//     const filter = {};
+
+//     // text search on title or location.address
+//     if (q) {
+//       filter.$or = [
+//         { title: { $regex: q, $options: "i" } },
+//         { "location.address": { $regex: q, $options: "i" } }
+//       ];
+//     }
+
+//     // price range
+//     if (minPrice || maxPrice) {
+//       filter.price = {};
+//       if (minPrice) filter.price.$gte = Number(minPrice);
+//       if (maxPrice) filter.price.$lte = Number(maxPrice);
+//     }
+
+//     const listings = await Listing.find(filter).sort({ createdAt: -1 });
+//     res.json(listings);
+//   } catch (err) {
+//     console.error("Listing Search Error:", err.message);
+//     res.status(500).json({ message: "Server error" });
+//   }
+// };

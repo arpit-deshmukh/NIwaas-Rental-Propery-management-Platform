@@ -5,6 +5,10 @@ import cookieParser from "cookie-parser";
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js";
 import listingRoutes from "./routes/listingRoutes.js";
+import uploadRoutes from "./routes/uploadRoutes.js";
+import bookingRoutes from "./routes/bookingRoutes.js";
+
+
 
 dotenv.config();
 connectDB();
@@ -23,6 +27,9 @@ app.use(
 // auth routes
 app.use("/api/auth", authRoutes);
 app.use("/api/listings", listingRoutes);
+app.use("/api/upload", uploadRoutes);
+app.use("/api/bookings", bookingRoutes);
+
 
 app.get("/", (req, res) => {
   res.json({ message: "Backend running..." });
