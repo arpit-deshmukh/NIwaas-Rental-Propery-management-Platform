@@ -1,15 +1,17 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
+import Login from "./pages/Auth/Login";
+import Register from "./pages/Auth/Register";
 
 function App() {
   return (
-    <div className="min-h-screen bg-white">
+    <BrowserRouter>
       <Navbar />
-      <div className="p-6">
-        <h2 className="text-xl font-medium">Frontend is running...</h2>
-        <div className="bg-red-500 text-white p-3">Tailwind OK</div>
-
-      </div>
-    </div>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
