@@ -6,6 +6,10 @@ const ListingDetails = () => {
   const { id } = useParams();
   const [listing, setListing] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [startDate, setStartDate] = useState("");
+const [endDate, setEndDate] = useState("");
+const [msg, setMsg] = useState("");
+
 
   const fetchListing = async () => {
     try {
@@ -33,6 +37,52 @@ const ListingDetails = () => {
       </div>
     );
   }
+
+
+// Handle booking 
+  const handleBooking = async () => {
+  setMsg("");
+
+  const token = localStorage.getItem("token");
+  if (!token) {
+    return setMsg("Please login first");
+  }
+
+  if (!startDate || !endDate) {
+    return setMsg("Choose valid dates");
+  }
+
+  const totalPrice = (() => {
+    const diff =
+      (new Date(endDate) - new Date(startDate)) / (1000 * 60 * 60 * 24);
+    return diff > 0 ? diff * listing.price : 0;
+  })();
+
+  if (totalPrice <= 0) {
+    return setMsg("End date must be after start date");
+  }
+
+  try {
+    await api.post(
+      "/bookings",
+      {
+        listingId: listing._id,
+        startDate,
+        endDate,
+        totalPrice
+      },
+      {
+        headers: { Authorization: `Bearer ${token}` }
+      }
+    );
+
+    setMsg("Booking successful!");
+  } catch (err) {
+    console.error("Booking Error:", err.message);
+    setMsg("Booking failed");
+  }
+};
+
 
   return (
     <div className="p-6 max-w-6xl mx-auto">
@@ -67,6 +117,55 @@ const ListingDetails = () => {
       <div className="mt-4 text-lg font-semibold">
         Price: ₹{listing.price} / night
       </div>
+
+      {/* Booking section */}
+<div className="mt-8 border p-5 rounded-lg shadow-sm">
+  <h2 className="text-xl font-semibold mb-3">Book this stay</h2>
+
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div>
+      <label className="text-sm font-medium">Start Date</label>
+      <input
+        type="date"
+        className="w-full border p-2 rounded"
+        value={startDate}
+        onChange={(e) => setStartDate(e.target.value)}
+      />
+    </div>
+
+    <div>
+      <label className="text-sm font-medium">End Date</label>
+      <input
+        type="date"
+        className="w-full border p-2 rounded"
+        value={endDate}
+        onChange={(e) => setEndDate(e.target.value)}
+      />
+    </div>
+  </div>
+
+  {/* Calculate price */}
+  {startDate && endDate && (
+    <p className="mt-3 font-medium">
+      Total Price: ₹
+      {(() => {
+        const diff =
+          (new Date(endDate) - new Date(startDate)) / (1000 * 60 * 60 * 24);
+        return diff > 0 ? diff * listing.price : 0;
+      })()}
+    </p>
+  )}
+
+  <button
+    onClick={handleBooking}
+    className="mt-4 w-full bg-black text-white py-2 rounded"
+  >
+    Book Now
+  </button>
+
+  {msg && <p className="mt-2 text-center">{msg}</p>}
+</div>
+
 
 {/* map placeholder */}
       <div className="mt-10">

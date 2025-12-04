@@ -13,6 +13,22 @@ const Navbar = () => {
       >
         Add Listing
       </Link>
+
+      <div className="flex items-center gap-4">
+  <Link
+    to="/create-listing"
+    className="bg-black text-white px-4 py-2 rounded-lg"
+  >
+    Add Listing
+  </Link>
+
+  <Link
+    to="/account"
+    className="border px-4 py-2 rounded-lg"
+  >
+    Account
+  </Link>
+</div>
     </div>
   );
 };

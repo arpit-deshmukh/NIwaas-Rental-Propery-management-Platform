@@ -7,6 +7,10 @@ import ListingDetails from "./pages/ListingDetails";
 
 import CreateListing from "./pages/CreateListing";
 
+import Account from "./pages/Account";
+
+
+
 function App() {
   return (
     <BrowserRouter>
@@ -19,6 +23,8 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/listing/:id" element={<ListingDetails />} />
         <Route path="/create-listing" element={<CreateListing />} />
+
+        <Route path="/account" element={<Account />} />
 
 
 
