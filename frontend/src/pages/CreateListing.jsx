@@ -55,12 +55,32 @@ const CreateListing = () => {
     }
 
     try {
+      let lat = null;
+      let lng = null;
+
+      try {
+        const geoRes = await fetch(
+          `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
+            form.address
+          )}`
+        );
+        const geoData = await geoRes.json();
+        if (geoData && geoData[0]) {
+          lat = parseFloat(geoData[0].lat);
+          lng = parseFloat(geoData[0].lon);
+        }
+      } catch (e) {
+        console.error("Geocoding error:", e);
+      }
+
       const payload = {
         title: form.title,
         description: form.description,
         price: Number(form.price),
         location: {
-          address: form.address
+          address: form.address,
+          lat,
+          lng
         },
         images
       };

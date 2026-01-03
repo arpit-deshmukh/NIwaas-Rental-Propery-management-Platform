@@ -1,28 +1,30 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import api from "../services/api";
+import MapLeaflet from "../components/MapLeaflet";
 
 const ListingDetails = () => {
   const { id } = useParams();
+
   const [listing, setListing] = useState(null);
   const [loading, setLoading] = useState(true);
+
   const [startDate, setStartDate] = useState("");
-const [endDate, setEndDate] = useState("");
-const [msg, setMsg] = useState("");
-
-
-  const fetchListing = async () => {
-    try {
-      const res = await api.get(`/listings/${id}`);
-      setListing(res.data);
-    } catch (err) {
-      console.error("Error loading listing:", err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const [endDate, setEndDate] = useState("");
+  const [msg, setMsg] = useState("");
 
   useEffect(() => {
+    const fetchListing = async () => {
+      try {
+        const res = await api.get(`/listings/${id}`);
+        setListing(res.data);
+      } catch (err) {
+        console.error("Error loading listing:", err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     fetchListing();
   }, [id]);
 
@@ -38,60 +40,58 @@ const [msg, setMsg] = useState("");
     );
   }
 
-
-// Handle booking 
   const handleBooking = async () => {
-  setMsg("");
+    setMsg("");
 
-  const token = localStorage.getItem("token");
-  if (!token) {
-    return setMsg("Please login first");
-  }
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setMsg("Please login first");
+      return;
+    }
 
-  if (!startDate || !endDate) {
-    return setMsg("Choose valid dates");
-  }
+    if (!startDate || !endDate) {
+      setMsg("Choose valid dates");
+      return;
+    }
 
-  const totalPrice = (() => {
     const diff =
       (new Date(endDate) - new Date(startDate)) / (1000 * 60 * 60 * 24);
-    return diff > 0 ? diff * listing.price : 0;
-  })();
 
-  if (totalPrice <= 0) {
-    return setMsg("End date must be after start date");
-  }
+    if (diff <= 0) {
+      setMsg("End date must be after start date");
+      return;
+    }
 
-  try {
-    await api.post(
-      "/bookings",
-      {
-        listingId: listing._id,
-        startDate,
-        endDate,
-        totalPrice
-      },
-      {
-        headers: { Authorization: `Bearer ${token}` }
-      }
-    );
+    const totalPrice = diff * listing.price;
 
-    setMsg("Booking successful!");
-  } catch (err) {
-    console.error("Booking Error:", err.message);
-    setMsg("Booking failed");
-  }
-};
+    try {
+      await api.post(
+        "/bookings",
+        {
+          listingId: listing._id,
+          startDate,
+          endDate,
+          totalPrice,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
+      setMsg("Booking successful!");
+    } catch (err) {
+      console.error("Booking Error:", err.message);
+      setMsg("Booking failed");
+    }
+  };
 
   return (
     <div className="p-6 max-w-6xl mx-auto">
-
-    {/* title */}
       <h1 className="text-3xl font-semibold mb-2">{listing.title}</h1>
       <p className="text-gray-600">{listing.location?.address}</p>
 
-   {/* image gallery */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
         {listing.images?.length ? (
           listing.images.map((img, idx) => (
@@ -107,74 +107,84 @@ const [msg, setMsg] = useState("");
         )}
       </div>
 
-   
       <div className="mt-6">
         <h2 className="text-xl font-semibold mb-2">About this place</h2>
-        <p className="text-gray-700 leading-relaxed">{listing.description}</p>
+        <p className="text-gray-700 leading-relaxed">
+          {listing.description}
+        </p>
       </div>
-
 
       <div className="mt-4 text-lg font-semibold">
         Price: ₹{listing.price} / night
       </div>
 
-      {/* Booking section */}
-<div className="mt-8 border p-5 rounded-lg shadow-sm">
-  <h2 className="text-xl font-semibold mb-3">Book this stay</h2>
+      {/* Booking */}
+      <div className="mt-8 border p-5 rounded-lg shadow-sm">
+        <h2 className="text-xl font-semibold mb-3">Book this stay</h2>
 
-  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-    <div>
-      <label className="text-sm font-medium">Start Date</label>
-      <input
-        type="date"
-        className="w-full border p-2 rounded"
-        value={startDate}
-        onChange={(e) => setStartDate(e.target.value)}
-      />
-    </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label className="text-sm font-medium">Start Date</label>
+            <input
+              type="date"
+              className="w-full border p-2 rounded"
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+            />
+          </div>
 
-    <div>
-      <label className="text-sm font-medium">End Date</label>
-      <input
-        type="date"
-        className="w-full border p-2 rounded"
-        value={endDate}
-        onChange={(e) => setEndDate(e.target.value)}
-      />
-    </div>
-  </div>
-
-  {/* Calculate price */}
-  {startDate && endDate && (
-    <p className="mt-3 font-medium">
-      Total Price: ₹
-      {(() => {
-        const diff =
-          (new Date(endDate) - new Date(startDate)) / (1000 * 60 * 60 * 24);
-        return diff > 0 ? diff * listing.price : 0;
-      })()}
-    </p>
-  )}
-
-  <button
-    onClick={handleBooking}
-    className="mt-4 w-full bg-black text-white py-2 rounded"
-  >
-    Book Now
-  </button>
-
-  {msg && <p className="mt-2 text-center">{msg}</p>}
-</div>
-
-
-{/* map placeholder */}
-      <div className="mt-10">
-        <h2 className="text-xl font-semibold mb-3">Location</h2>
-        <div className="w-full h-64 bg-gray-200 flex items-center justify-center rounded-lg">
-          <span className="text-gray-600">Map will be here</span>
+          <div>
+            <label className="text-sm font-medium">End Date</label>
+            <input
+              type="date"
+              className="w-full border p-2 rounded"
+              value={endDate}
+              onChange={(e) => setEndDate(e.target.value)}
+            />
+          </div>
         </div>
+
+        {startDate && endDate && (
+          <p className="mt-3 font-medium">
+            Total Price: ₹
+            {(() => {
+              const diff =
+                (new Date(endDate) - new Date(startDate)) /
+                (1000 * 60 * 60 * 24);
+              return diff > 0 ? diff * listing.price : 0;
+            })()}
+          </p>
+        )}
+
+        <button
+          onClick={handleBooking}
+          className="mt-4 w-full bg-black text-white py-2 rounded"
+        >
+          Book Now
+        </button>
+
+        {msg && <p className="mt-2 text-center">{msg}</p>}
       </div>
 
+      {/* Location */}
+      <div className="mt-10">
+        <h2 className="text-xl font-semibold mb-3">Location</h2>
+
+        {typeof listing?.location?.lat === "number" &&
+        typeof listing?.location?.lng === "number" ? (
+          <MapLeaflet
+            lat={listing.location.lat}
+            lng={listing.location.lng}
+            title={listing.title}
+          />
+        ) : (
+          <div className="w-full h-64 bg-gray-200 flex items-center justify-center rounded-lg">
+            <span className="text-gray-600">
+              Location data not available
+            </span>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
