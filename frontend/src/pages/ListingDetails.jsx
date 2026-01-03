@@ -115,7 +115,7 @@ const ListingDetails = () => {
       </div>
 
       <div className="mt-4 text-lg font-semibold">
-        Price: ₹{listing.price} / night
+        Price: ₹{listing.price} / day
       </div>
 
       {/* Booking */}

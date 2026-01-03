@@ -2,6 +2,171 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Leaflet */
 @import "leaflet/dist/leaflet.css";
 
+/* =====================
+   Theme Variables
+===================== */
+:root {
+  /* Backgrounds (soft, neutral, travel-friendly) */
+  --bg-base: #fbfaf8;
+  --bg-muted: #f4f1ec;
+  --bg-card: #ffffff;
 
+  /* Borders & text */
+  --border: #e6e3de;
+  --text: #1f2937;
+  --text-muted: #6b7280;
+
+  /* Accents */
+  --primary: #111827;
+  --primary-hover: #020617;
+  --accent: #4f46e5;
+
+  /* Status */
+  --success: #22c55e;
+  --error: #ef4444;
+
+  --radius: 14px;
+
+  /* Background spectrum */
+  --bg-gradient-main: linear-gradient(
+    180deg,
+    #fbfaf8 0%,
+    #f4f1ec 45%,
+    #f1f5f9 100%
+  );
+}
+
+/* =====================
+   Base Styles
+===================== */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: var(--bg-gradient-main);
+    color: var(--text);
+    @apply antialiased;
+  }
+
+  a {
+    @apply text-inherit no-underline;
+  }
+
+  a:hover {
+    @apply underline;
+  }
+
+  input,
+  textarea,
+  select {
+    background-color: var(--bg-muted);
+  }
+}
+
+/* =====================
+   Components
+===================== */
+@layer components {
+  /* Button */
+  .btn {
+    @apply inline-flex items-center justify-center rounded-xl px-4 py-2.5 text-sm font-medium transition;
+    background-color: var(--primary);
+    color: white;
+  }
+
+  .btn:hover {
+    background-color: var(--primary-hover);
+  }
+
+  .btn-outline {
+    @apply rounded-xl border px-4 py-2.5 text-sm transition;
+    background-color: var(--bg-card);
+    border-color: var(--border);
+  }
+
+  /* Input */
+  .input {
+    @apply w-full rounded-xl border px-3 py-2.5 text-sm transition;
+    background-color: var(--bg-muted);
+    border-color: var(--border);
+  }
+
+  .input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12);
+  }
+
+  /* Card */
+  .card {
+    @apply relative rounded-xl border p-5 transition;
+    background-color: var(--bg-card);
+    border-color: var(--border);
+    animation: cardFadeIn 0.45s ease-out both;
+  }
+
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.08);
+  }
+}
+
+/* =====================
+   Utilities
+===================== */
+@layer utilities {
+  .bg-base {
+    background-color: var(--bg-base);
+  }
+
+  .bg-muted {
+    background-color: var(--bg-muted);
+  }
+
+  .fade-in {
+    animation: fadeIn 0.4s ease-out forwards;
+  }
+
+  .slide-up {
+    animation: slideUp 0.45s ease-out forwards;
+  }
+}
+
+/* =====================
+   Animations
+===================== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes cardFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}

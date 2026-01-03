@@ -1,7 +1,36 @@
 import Listing from "../models/Listing.js";
 import { geocodeAddress } from "../utils/geocode.js";
+import { getRandomImages } from "../utils/defaultImages.js";
 
 // create listing
+// export const createListing = async (req, res) => {
+//   try {
+//     const { title, description, price, location, images } = req.body;
+
+//     let coords = null;
+//     if (location?.address) {
+//       coords = await geocodeAddress(location.address);
+//     }
+
+//     const listing = await Listing.create({
+//       title,
+//       description,
+//       price,
+//       images,
+//       host: req.user._id,
+//       location: {
+//         address: location.address,
+//         lat: coords?.lat || null,
+//         lng: coords?.lng || null,
+//       },
+//     });
+
+//     res.status(201).json(listing);
+//   } catch (err) {
+//     console.error("Create Listing Error:", err.message);
+//     res.status(500).json({ message: "Server error" });
+//   }
+// };
 export const createListing = async (req, res) => {
   try {
     const { title, description, price, location, images } = req.body;
@@ -11,12 +40,15 @@ export const createListing = async (req, res) => {
       coords = await geocodeAddress(location.address);
     }
 
+    const finalImages =
+      images && images.length > 0 ? images : getRandomImages();
+
     const listing = await Listing.create({
       title,
       description,
       price,
-      images,
       host: req.user._id,
+      images: finalImages,
       location: {
         address: location.address,
         lat: coords?.lat || null,

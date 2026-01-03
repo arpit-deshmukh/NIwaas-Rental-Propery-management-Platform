@@ -59,7 +59,7 @@ const MyListings = () => {
             <div className="p-3">
               <h3 className="text-lg font-semibold">{item.title}</h3>
               <p className="text-gray-600 text-sm">{item.location?.address}</p>
-              <p className="font-medium mt-1">₹{item.price}/night</p>
+              <p className="font-medium mt-1">₹{item.price}/day</p>
 
               <button
                 onClick={() => deleteListing(item._id)}
