@@ -21,7 +21,7 @@ app.use(cookieParser());
 
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://niwaas-v3.vercel.app",
+  "https://niwaas-v3.vercel.app/api",
 ];
 
 app.use(
