@@ -3,7 +3,7 @@ import multer from "multer";
 import cloudinary from "../utils/cloudinary.js";
 import streamifier from "streamifier";
 
-import { protect } from "../middleware/amw.js";
+import { protect } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 

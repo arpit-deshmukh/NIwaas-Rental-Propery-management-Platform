@@ -1,5 +1,5 @@
 import express from "express";
-import { protect } from "../middleware/amw.js";
+import { protect } from "../middleware/authMiddleware.js";
 import { createBooking, getMyBookings } from "../controllers/bookingController.js";
 
 const router = express.Router();
