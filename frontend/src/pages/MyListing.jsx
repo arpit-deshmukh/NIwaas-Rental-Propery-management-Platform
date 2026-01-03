@@ -67,6 +67,12 @@ const MyListings = () => {
               >
                 Delete
               </button>
+              <button
+                onClick={() => updateListing(item._id)}
+                className="mt-3 bg-red-500 text-white px-3 py-1 rounded"
+              >
+                Update
+              </button>
             </div>
           </div>
         ))}

@@ -62,6 +62,33 @@ export const deleteListing = async (req, res) => {
   }
 };
 
+export const updateListing= async (req, res) => {
+  try {
+    const listing = await Listing.findById(req.params.id);
+
+    if (!listing) {
+      return res.status(404).json({ message: "Listing not found" });
+    }
+
+    // Only host can update
+    if (listing.host.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ message: "Not allowed" });
+    }
+
+    const updated = await Listing.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
+
+    res.json(updated);
+  } catch (err) {
+    console.error("Update Error:", err.message);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+
 // export const getAllListings = async (req, res) => {
 //   try {
 //     const { q, minPrice, maxPrice } = req.query;

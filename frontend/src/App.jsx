@@ -9,7 +9,7 @@ import CreateListing from "./pages/CreateListing";
 
 import Account from "./pages/Account";
 import MyListings from "./pages/MyListing";
-
+import EditListing from "./pages/EditListing";
 
 function App() {
   return (
@@ -26,6 +26,8 @@ function App() {
 
         <Route path="/account" element={<Account />} />
         <Route path="/my-listings" element={<MyListings />} />
+        <Route path="/edit-listing/:id" element={<EditListing />} />
+
 
 
 

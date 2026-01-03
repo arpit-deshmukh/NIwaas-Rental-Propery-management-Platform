@@ -4,7 +4,8 @@ import {
   createListing,
   getAllListings,
   getListingById,
-  deleteListing
+  deleteListing,
+  updateListing
 } from "../controllers/listingController.js";
 
 const router = express.Router();
@@ -12,8 +13,11 @@ const router = express.Router();
 router.get("/", getAllListings);
 router.get("/:id", getListingById);
 
+
+
 // protected routes
 router.post("/", protect, createListing);
 router.delete("/:id", protect, deleteListing);
+router.put("/:id", protect, updateListing);
 
 export default router;
