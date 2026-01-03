@@ -15,10 +15,6 @@ connectDB();
 
 const app = express();
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
-
 const allowedOrigins = [
   "http://localhost:5173",
   "https://niwaas-v3.vercel.app",
@@ -26,12 +22,10 @@ const allowedOrigins = [
 
 app.use(
   cors({
-    origin: (origin, callback) => {
+    origin: function (origin, callback) {
       if (!origin) return callback(null, true);
-      if (allowedOrigins.includes(origin)) {
-        return callback(null, true);
-      }
-      callback(new Error("Not allowed by CORS"));
+      if (allowedOrigins.includes(origin)) return callback(null, true);
+      return callback(new Error("Not allowed by CORS"));
     },
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
@@ -39,7 +33,12 @@ app.use(
   })
 );
 
-// routes
+app.options("*", cors());
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
+
 app.use("/api/auth", authRoutes);
 app.use("/api/listings", listingRoutes);
 app.use("/api/upload", uploadRoutes);
@@ -47,6 +46,10 @@ app.use("/api/bookings", bookingRoutes);
 
 app.get("/", (req, res) => {
   res.json({ message: "Backend running..." });
+});
+
+app.use((err, req, res, next) => {
+  res.status(500).json({ message: err.message });
 });
 
 const PORT = process.env.PORT || 5000;

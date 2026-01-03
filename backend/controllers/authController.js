@@ -15,8 +15,7 @@ export const registerUser = async (req, res) => {
       return res.status(400).json({ message: "Email already in use" });
     }
 
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = await User.create({
       name,
@@ -27,8 +26,14 @@ export const registerUser = async (req, res) => {
 
     const token = generateToken(user._id);
 
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+
     res.status(201).json({
-      token,
       user: {
         id: user._id,
         name: user.name,
@@ -37,7 +42,6 @@ export const registerUser = async (req, res) => {
       },
     });
   } catch (err) {
-    console.error("Register Error:", err.message);
     res.status(500).json({ message: "Server error" });
   }
 };
@@ -51,21 +55,25 @@ export const loginUser = async (req, res) => {
     }
 
     const user = await User.findOne({ email });
-
     if (!user) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
     const match = await bcrypt.compare(password, user.password);
-
     if (!match) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
     const token = generateToken(user._id);
 
-    return res.json({
-      token,
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+
+    res.json({
       user: {
         id: user._id,
         email: user.email,
@@ -74,7 +82,6 @@ export const loginUser = async (req, res) => {
       },
     });
   } catch (err) {
-    console.error("Login Error:", err.message);
     res.status(500).json({ message: "Server error" });
   }
 };
