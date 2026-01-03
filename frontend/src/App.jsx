@@ -8,7 +8,7 @@ import ListingDetails from "./pages/ListingDetails";
 import CreateListing from "./pages/CreateListing";
 
 import Account from "./pages/Account";
-
+import MyListings from "./pages/MyListing";
 
 
 function App() {
@@ -25,6 +25,8 @@ function App() {
         <Route path="/create-listing" element={<CreateListing />} />
 
         <Route path="/account" element={<Account />} />
+        <Route path="/my-listings" element={<MyListings />} />
+
 
 
 

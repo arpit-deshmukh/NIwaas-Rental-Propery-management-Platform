@@ -22,6 +22,12 @@ const Navbar = () => {
             >
               Add Listing
             </Link>
+            <Link
+              to="/my-listings"
+              className="border px-4 py-2 rounded-lg"
+            >
+              My Listings
+            </Link>
 
             <Link
               to="/account"
@@ -29,6 +35,7 @@ const Navbar = () => {
             >
               Account
             </Link>
+ 
 
             <button
               onClick={logout}
@@ -36,6 +43,7 @@ const Navbar = () => {
             >
               Logout
             </button>
+
           </>
         ) : (
           <>
