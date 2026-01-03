@@ -1,5 +1,7 @@
 import { useState } from "react";
 import api from "../../services/api";
+import { useContext } from "react";
+import { AuthContext } from "../../store/AuthContext";
 
 const Register = () => {
   const [form, setForm] = useState({
