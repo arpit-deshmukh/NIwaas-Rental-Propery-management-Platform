@@ -91,8 +91,6 @@ const ListingDetails = () => {
     <div className="max-w-6xl mx-auto px-6 py-10 fade-in">
       {/* OUTER WRAPPER */}
       <div className="card bg-white/95 border shadow-sm">
-
-        {/* Header */}
         <div className="mb-6">
           <h1 className="text-3xl font-semibold mb-1">
             {listing.title}
@@ -102,7 +100,6 @@ const ListingDetails = () => {
           </p>
         </div>
 
-        {/* Images */}
         <div className="mb-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {listing.images?.length ? (
@@ -122,7 +119,6 @@ const ListingDetails = () => {
 
         <hr className="my-8 border-gray-200" />
 
-        {/* Description */}
         <div className="card mb-6">
           <h2 className="text-xl font-semibold mb-2">
             About this place
@@ -132,7 +128,6 @@ const ListingDetails = () => {
           </p>
         </div>
 
-        {/* Price */}
         <div className="mb-6 text-lg font-semibold">
           ₹{listing.price}{" "}
           <span className="text-sm font-normal text-gray-500">
@@ -140,7 +135,6 @@ const ListingDetails = () => {
           </span>
         </div>
 
-        {/* Booking */}
         <div className="card border-2 border-gray-200 mb-8">
           <h2 className="text-xl font-semibold mb-4">
             Book this stay
@@ -196,7 +190,6 @@ const ListingDetails = () => {
 
         <hr className="my-8 border-gray-200" />
 
-        {/* Location */}
         <div className="card">
           <h2 className="text-xl font-semibold mb-3">
             Location

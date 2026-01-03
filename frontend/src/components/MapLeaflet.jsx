@@ -11,7 +11,7 @@ const MapLeaflet = ({ lat, lng, title }) => {
   });
 
   return (
-    <div className="w-full h-64 rounded-lg overflow-hidden">
+    <div className="w-full h-72 rounded-xl overflow-hidden border border-gray-300 bg-gray-100">
       <MapContainer
         center={position}
         zoom={14}

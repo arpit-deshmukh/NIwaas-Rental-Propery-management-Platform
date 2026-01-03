@@ -10,7 +10,7 @@ import CreateListing from "./pages/CreateListing";
 import Account from "./pages/Account";
 import MyListings from "./pages/MyListing";
 import EditListing from "./pages/EditListing";
-
+import Footer from "./components/Footer";
 function App() {
   return (
     <BrowserRouter>
@@ -34,6 +34,7 @@ function App() {
 
 
       </Routes>
+           <Footer />
     </BrowserRouter>
   );
 }

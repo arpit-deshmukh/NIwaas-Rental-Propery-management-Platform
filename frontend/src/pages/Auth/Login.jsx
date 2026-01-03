@@ -24,7 +24,6 @@ const Login = () => {
 
     try {
       const res = await api.post("/auth/login", form);
-
       login(res.data.token, res.data.user);
       navigate("/", { replace: true });
     } catch (err) {
@@ -33,35 +32,48 @@ const Login = () => {
   };
 
   return (
-    <div className="flex justify-center mt-16">
-      <form
-        onSubmit={handleSubmit}
-        className="w-full max-w-md border p-6 rounded-lg"
-      >
-        <h2 className="text-2xl font-semibold mb-4">Login</h2>
+    <div className="flex justify-center px-4 py-20 fade-in">
+      <div className="card w-full max-w-md">
+        <h2 className="text-2xl font-semibold mb-1">
+          Welcome back
+        </h2>
+        <p className="text-sm text-gray-500 mb-6">
+          Login to manage your listings and bookings
+        </p>
 
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          className="w-full border p-2 mb-3 rounded"
-          onChange={handleChange}
-        />
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <input
+            type="email"
+            name="email"
+            placeholder="Email address"
+            className="input"
+            value={form.email}
+            onChange={handleChange}
+          />
 
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          className="w-full border p-2 mb-3 rounded"
-          onChange={handleChange}
-        />
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            className="input"
+            value={form.password}
+            onChange={handleChange}
+          />
 
-        {error && <p className="text-red-500 mb-3">{error}</p>}
+          {error && (
+            <p className="text-sm text-red-600">
+              {error}
+            </p>
+          )}
 
-        <button className="w-full bg-black text-white py-2 rounded">
-          Login
-        </button>
-      </form>
+          <button
+            type="submit"
+            className="btn w-full mt-2"
+          >
+            Login
+          </button>
+        </form>
+      </div>
     </div>
   );
 };

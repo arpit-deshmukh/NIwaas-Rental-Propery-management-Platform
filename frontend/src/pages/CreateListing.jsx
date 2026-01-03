@@ -138,7 +138,6 @@ const CreateListing = () => {
             onChange={handleChange}
           />
 
-          {/* Image Upload */}
           <div className="border rounded-xl p-4 bg-white/70">
             <p className="font-medium mb-2">Upload Images</p>
 
