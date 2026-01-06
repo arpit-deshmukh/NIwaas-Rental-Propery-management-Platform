@@ -2,35 +2,33 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Leaflet */
+
 @import "leaflet/dist/leaflet.css";
 
-/* =====================
-   Theme Variables
-===================== */
+
 :root {
-  /* Backgrounds (soft, neutral, travel-friendly) */
+
   --bg-base: #fbfaf8;
   --bg-muted: #f4f1ec;
   --bg-card: #ffffff;
 
-  /* Borders & text */
+
   --border: #e6e3de;
   --text: #1f2937;
   --text-muted: #6b7280;
 
-  /* Accents */
+
   --primary: #111827;
   --primary-hover: #020617;
   --accent: #4f46e5;
 
-  /* Status */
+
   --success: #22c55e;
   --error: #ef4444;
 
   --radius: 14px;
 
-  /* Background spectrum */
+
   --bg-gradient-main: linear-gradient(
     180deg,
     #fbfaf8 0%,
@@ -39,9 +37,7 @@
   );
 }
 
-/* =====================
-   Base Styles
-===================== */
+
 @layer base {
   html {
     scroll-behavior: smooth;
@@ -68,11 +64,9 @@
   }
 }
 
-/* =====================
-   Components
-===================== */
+
 @layer components {
-  /* Button */
+
   .btn {
     @apply inline-flex items-center justify-center rounded-xl px-4 py-2.5 text-sm font-medium transition;
     background-color: var(--primary);
@@ -89,7 +83,7 @@
     border-color: var(--border);
   }
 
-  /* Input */
+
   .input {
     @apply w-full rounded-xl border px-3 py-2.5 text-sm transition;
     background-color: var(--bg-muted);
@@ -102,7 +96,7 @@
     box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12);
   }
 
-  /* Card */
+
   .card {
     @apply relative rounded-xl border p-5 transition;
     background-color: var(--bg-card);
@@ -116,9 +110,7 @@
   }
 }
 
-/* =====================
-   Utilities
-===================== */
+
 @layer utilities {
   .bg-base {
     background-color: var(--bg-base);
@@ -137,9 +129,7 @@
   }
 }
 
-/* =====================
-   Animations
-===================== */
+
 @keyframes fadeIn {
   from {
     opacity: 0;

@@ -15,7 +15,7 @@ router.get("/:id", getListingById);
 
 
 
-// protected routes
+
 router.post("/", protect, createListing);
 router.delete("/:id", protect, deleteListing);
 router.put("/:id", protect, updateListing);

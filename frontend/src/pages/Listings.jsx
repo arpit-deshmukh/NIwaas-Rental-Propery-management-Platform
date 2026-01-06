@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import api from "../services/api";
 import ListingCard from "../components/ListingCard";
+import Hero from "./page-components/Hero"
+import WhyNiwaas from "./page-components/WhyNiwas"
 
 const Home = () => {
   const [listings, setListings] = useState([]);
@@ -38,11 +40,16 @@ const Home = () => {
   }
 
   return (
+    <>
+      
     <div className="p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
       {listings.map((item) => (
         <ListingCard key={item._id} item={item} />
       ))}
     </div>
+    
+    </>
+  
   );
 };
 

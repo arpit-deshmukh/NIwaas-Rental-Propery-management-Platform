@@ -3,7 +3,7 @@ const Footer = () => {
     <footer className="mt-24 bg-gradient-to-b from-gray-100 via-gray-100 to-gray-200 border-t border-gray-300">
       <div className="max-w-7xl mx-auto px-6 py-16">
 
-        {/* Top grid */}
+
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-14 text-sm text-gray-600">
           
           <div>
@@ -51,7 +51,7 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Bottom bar */}
+
         <div className="mt-16 pt-6 border-t border-gray-300 flex flex-col sm:flex-row justify-between items-center text-xs text-gray-500">
           <span>© 2026 Niwaas</span>
 

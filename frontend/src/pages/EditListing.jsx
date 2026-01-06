@@ -37,7 +37,7 @@ const EditListing = () => {
     }
   };
 
-  // upload new image
+
   const uploadImage = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -56,7 +56,7 @@ const EditListing = () => {
     }
   };
 
-  // submit updated data
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMsg("");
@@ -146,7 +146,7 @@ const EditListing = () => {
           onChange={(e) => setForm({ ...form, address: e.target.value })}
         />
 
-        {/* images */}
+
         <div className="border p-3 rounded">
           <p className="font-medium mb-2">Images</p>
           <input type="file" onChange={uploadImage} />

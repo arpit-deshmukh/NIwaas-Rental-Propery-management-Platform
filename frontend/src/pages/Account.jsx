@@ -41,7 +41,7 @@ const Account = () => {
 
   return (
     <div className="max-w-5xl mx-auto px-6 py-10 fade-in">
-      {/* Profile */}
+
       <div className="card mb-8">
         <h1 className="text-3xl font-semibold">
           Your Account
@@ -51,7 +51,7 @@ const Account = () => {
         </p>
       </div>
 
-      {/* Bookings */}
+
       <h2 className="text-2xl font-semibold mb-4">
         Your Bookings
       </h2>

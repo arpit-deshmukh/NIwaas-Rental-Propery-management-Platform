@@ -8,12 +8,25 @@ const Navbar = () => {
   return (
     <nav className="w-full border-b border-gray-300 bg-gradient-to-b from-gray-50 to-gray-100 backdrop-blur-sm">
       <div className="px-6 py-4 flex justify-between items-center">
-        <Link
-          to="/"
-          className="text-2xl font-semibold tracking-tight text-gray-900 transition hover:text-blue-600"
-        >
-          Niwaas
-        </Link>
+        <div className="inline-block">
+  <Link
+    to="/"
+    className="
+      block
+      px-2 py-1
+      text-2xl font-semibold tracking-tight
+      text-gray-900
+      no-underline
+      transition-all duration-300 ease-out
+      hover:text-orange-600
+      hover:bg-orange-50
+      rounded-md
+    "
+  >
+    Niwaas
+  </Link>
+</div>
+
 
         <div className="flex items-center gap-2">
           {user ? (

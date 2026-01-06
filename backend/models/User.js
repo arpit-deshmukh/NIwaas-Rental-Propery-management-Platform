@@ -22,7 +22,7 @@ const UserSchema = new mongoose.Schema(
     },
 
     avatar: {
-      type: String, // Cloudinary link
+      type: String,
       default: "",
     },
   },

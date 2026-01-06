@@ -1,7 +1,7 @@
 import Booking from "../models/Booking.js";
 import Listing from "../models/Listing.js";
 
-// create booking
+
 export const createBooking = async (req, res) => {
   try {
     const { listingId, startDate, endDate, totalPrice } = req.body;
@@ -30,7 +30,7 @@ export const createBooking = async (req, res) => {
   }
 };
 
-// get all bookings for loggeIn
+
 export const getMyBookings = async (req, res) => {
   try {
     const bookings = await Booking.find({ user: req.user._id })

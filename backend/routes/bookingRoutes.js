@@ -4,7 +4,7 @@ import { createBooking, getMyBookings } from "../controllers/bookingController.j
 
 const router = express.Router();
 
-// must be logged In
+
 router.post("/", protect, createBooking);
 router.get("/me", protect, getMyBookings);
 

@@ -7,7 +7,7 @@ import { protect } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
-// multer memory storage 
+ 
 const upload = multer({ storage: multer.memoryStorage() });
 
 router.post("/", protect, upload.single("image"), async (req, res) => {

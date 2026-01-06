@@ -18,7 +18,7 @@ const ListingSchema = new mongoose.Schema(
       required: true,
     },
 
-    // location object with map ccordinates 
+ 
     location: {
       address: { type: String, required: true },
       lat: Number,
@@ -26,7 +26,7 @@ const ListingSchema = new mongoose.Schema(
     },
 
     images: {
-      type: [String], // array of Cloudinary URLs
+      type: [String],
       default: [],
     },
 
@@ -35,7 +35,7 @@ const ListingSchema = new mongoose.Schema(
       default: [],
     },
 
-    ///user creating listing
+
     host: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",

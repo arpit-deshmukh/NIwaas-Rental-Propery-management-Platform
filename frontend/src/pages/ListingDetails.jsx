@@ -89,7 +89,7 @@ const ListingDetails = () => {
 
   return (
     <div className="max-w-6xl mx-auto px-6 py-10 fade-in">
-      {/* OUTER WRAPPER */}
+
       <div className="card bg-white/95 border shadow-sm">
         <div className="mb-6">
           <h1 className="text-3xl font-semibold mb-1">
