@@ -12,31 +12,27 @@ import MyListings from "./pages/MyListing";
 import EditListing from "./pages/EditListing";
 import Footer from "./components/Footer";
 import HomePage from "./pages/HomePage";
+import ProtectedRoute from "./components/ProtectedRoute";
+
 function App() {
   return (
     <BrowserRouter>
       <Navbar />
       <Routes>
-        
+        <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-
-        <Route path="/" element={<HomePage />} />
         <Route path="/listings" element={<Listing />} />
         <Route path="/listing/:id" element={<ListingDetails />} />
-        <Route path="/create-listing" element={<CreateListing />} />
 
-        <Route path="/account" element={<Account />} />
-        <Route path="/my-listings" element={<MyListings />} />
-        <Route path="/edit-listing/:id" element={<EditListing />} />
-
-
-
-
-
-
+        <Route element={<ProtectedRoute />}>
+          <Route path="/create-listing" element={<CreateListing />} />
+          <Route path="/account" element={<Account />} />
+          <Route path="/my-listings" element={<MyListings />} />
+          <Route path="/edit-listing/:id" element={<EditListing />} />
+        </Route>
       </Routes>
-           <Footer />
+      <Footer />
     </BrowserRouter>
   );
 }
