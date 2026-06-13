@@ -2,7 +2,7 @@ import Listing from "../models/Listing.js";
 import { geocodeAddress } from "../utils/geocode.js";
 import { getRandomImages } from "../utils/defaultImages.js";
 
-export const createListing = async (req, res) => {
+export const createListing = async (req, res, next) => {
   try {
     const { title, description, price, location, images } = req.body;
 
@@ -29,72 +29,66 @@ export const createListing = async (req, res) => {
 
     res.status(201).json(listing);
   } catch (err) {
-    console.error("Create Listing Error:", err.message);
-    res.status(500).json({ message: "Server error" });
+    next(err);
   }
 };
 
-export const getAllListings = async (req, res) => {
+export const getAllListings = async (req, res, next) => {
   try {
     const listings = await Listing.find().sort({ createdAt: -1 });
     res.json(listings);
-  } catch {
-    res.status(500).json({ message: "Server error" });
+  } catch (err) {
+    next(err);
   }
 };
 
-export const getListingById = async (req, res) => {
+export const getListingById = async (req, res, next) => {
   try {
     const listing = await Listing.findById(req.params.id);
-
     if (!listing) {
       return res.status(404).json({ message: "Listing not found" });
     }
-
     res.json(listing);
-  } catch {
-    res.status(500).json({ message: "Server error" });
+  } catch (err) {
+    next(err);
   }
 };
 
-export const deleteListing = async (req, res) => {
+export const deleteListing = async (req, res, next) => {
   try {
     const listing = await Listing.findById(req.params.id);
-
     if (!listing) {
       return res.status(404).json({ message: "Listing not found" });
     }
 
     if (listing.host.toString() !== req.user._id.toString()) {
-      return res.status(403).json({ message: "Not allowed" });
+      return res.status(403).json({ message: "Not authorized" });
     }
 
     await listing.deleteOne();
     res.json({ message: "Listing deleted" });
-  } catch {
-    res.status(500).json({ message: "Server error" });
+  } catch (err) {
+    next(err);
   }
 };
 
-export const updateListing = async (req, res) => {
+export const updateListing = async (req, res, next) => {
   try {
     const listing = await Listing.findById(req.params.id);
-
     if (!listing) {
       return res.status(404).json({ message: "Listing not found" });
     }
 
     if (listing.host.toString() !== req.user._id.toString()) {
-      return res.status(403).json({ message: "Not allowed" });
+      return res.status(403).json({ message: "Not authorized" });
     }
 
     if (req.body.location?.address) {
       let coords = null;
-
       try {
         coords = await geocodeAddress(req.body.location.address);
-      } catch (err) {
-        console.error("Geocoding Error:", err.message);
+      } catch (geocodeErr) {
+        console.error("Geocoding Error:", geocodeErr.message);
       }
 
       req.body.location = {
@@ -107,12 +101,11 @@ export const updateListing = async (req, res) => {
     const updated = await Listing.findByIdAndUpdate(
       req.params.id,
       req.body,
-      { new: true }
+      { new: true, runValidators: true }
     );
 
     res.json(updated);
   } catch (err) {
-    console.error("Update Listing Error:", err.message);
-    res.status(500).json({ message: "Server error" });
+    next(err);
   }
 };
