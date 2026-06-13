@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 
 import connectDB from "./config/db.js";
+import errorHandler from "./middleware/errorMiddleware.js";
 
 import authRoutes from "./routes/authRoutes.js";
 import listingRoutes from "./routes/listingRoutes.js";
@@ -48,9 +49,7 @@ app.get("/", (req, res) => {
   res.json({ message: "Backend running..." });
 });
 
-app.use((err, req, res, next) => {
-  res.status(500).json({ message: err.message });
-});
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

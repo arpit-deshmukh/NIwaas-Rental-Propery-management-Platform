@@ -2,13 +2,9 @@ import bcrypt from "bcryptjs";
 import User from "../models/User.js";
 import { generateToken } from "../utils/generateToken.js";
 
-export const registerUser = async (req, res) => {
+export const registerUser = async (req, res, next) => {
   try {
     const { name, email, password, avatar } = req.body;
-
-    if (!name || !email || !password) {
-      return res.status(400).json({ message: "All fields required" });
-    }
 
     const existing = await User.findOne({ email });
     if (existing) {
@@ -24,14 +20,7 @@ export const registerUser = async (req, res) => {
       avatar: avatar || "",
     });
 
-    const token = generateToken(user._id);
-
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: true,
-      sameSite: "none",
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-    });
+    generateToken(user._id, res);
 
     res.status(201).json({
       user: {
@@ -42,36 +31,25 @@ export const registerUser = async (req, res) => {
       },
     });
   } catch (err) {
-    res.status(500).json({ message: "Server error" });
+    next(err);
   }
 };
 
-export const loginUser = async (req, res) => {
+export const loginUser = async (req, res, next) => {
   try {
     const { email, password } = req.body;
 
-    if (!email || !password) {
-      return res.status(400).json({ message: "Email and password required" });
-    }
-
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(400).json({ message: "Invalid credentials" });
+      return res.status(401).json({ message: "Invalid credentials" });
     }
 
     const match = await bcrypt.compare(password, user.password);
     if (!match) {
-      return res.status(400).json({ message: "Invalid credentials" });
+      return res.status(401).json({ message: "Invalid credentials" });
     }
 
-    const token = generateToken(user._id);
-
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: true,
-      sameSite: "none",
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-    });
+    generateToken(user._id, res);
 
     res.json({
       user: {
@@ -82,7 +60,7 @@ export const loginUser = async (req, res) => {
       },
     });
   } catch (err) {
-    res.status(500).json({ message: "Server error" });
+    next(err);
   }
 };
 
